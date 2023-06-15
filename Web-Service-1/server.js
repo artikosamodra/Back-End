@@ -8,10 +8,12 @@ const requestListener = (request, response) => {
  
     if(url === '/') {
         if(method === 'GET') {
-        response.end('<h1>Ini adalah homepage</h1>');
+            response.statusCode = 200; //respon status terdiri dari 100-199 (informal), 200-299 (successful), 300-399 (redirect), 400-499 (client error/404), 500-599 (server error)
+            response.end('<h1>Ini adalah homepage</h1>');
         }
  
         else if(method === 'POST') {
+            response.statusCode = 200; //200 = OK
             let body = [];
     
                 request.on('data', (chunk) => {
@@ -26,6 +28,7 @@ const requestListener = (request, response) => {
         }
 
         else {
+            response.statusCode = 400; //400 = Bad Request
             response.end(`<h1>Halaman tidak dapat diakses menggunakan ${method} request</h1>`);
         }
  
@@ -33,10 +36,12 @@ const requestListener = (request, response) => {
     
     else if(url === '/about') {
         if(method === 'GET') {
+            response.statusCode = 200;
             response.end('<h1>Ini adalah aboutpage</h1>');
         }
  
         else if (method === 'POST') {
+            response.statusCode = 200;
             let body = [];
     
             request.on('data', (chunk) => {
@@ -51,12 +56,14 @@ const requestListener = (request, response) => {
         }
 
         else {
+            response.statusCode = 400;
             response.end(`<h1>Halaman tidak dapat diakses menggunakan ${method} request</h1>`);
         }
     }
     
     else {
-        response.end(`<h1>Halaman tidak ditemukan`);
+        response.statusCode = 404; //404 = not found
+        response.end(`<h1>Halaman tidak ditemukan<h1>`);
     }
 }
 
@@ -74,19 +81,42 @@ server.listen(port, host, () => {
 ====================================================================================================================
 Test output
 
-curl -X GET http://localhost:5000/
-output : <h1>Halo! Ini adalah homepage</h1>
+curl -X GET http://localhost:5000/about -i
 
-curl -X POST -H "Content-Type: application/json" http://localhost:5000/ -d "{\"name\": \"artiko\"}"
-output: <h1>Halo, artiko! Ini adalah homepage</h1>
+output:
+HTTP/1.1 200 OK
+Content-Type: text/html
+Date: Thu, 15 Jun 2023 11:40:13 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Content-Length: 29
 
-curl -X GET http://localhost:5000/about
-output: <h1>Halo! Ini adalah halaman aboutpage</h1>
+<h1>Ini adalah aboutpage</h1>
+=====================================================
 
-curl -X POST -H "Content-Type: application/json" http://localhost:5000/about -d "{\"name\": \"artiko\"}"
-output: <h1>Halo, artiko! Ini adalah aboutpage</h1>
+curl -X GET http://localhost:5000/test -i
 
-curl -X DELETE http://localhost:5000/about
-output: <h1>Halaman tidak dapat diakses menggunakan DELETE request</h1>
+output:
+HTTP/1.1 404 Not Found
+Content-Type: text/html
+Date: Thu, 15 Jun 2023 11:40:22 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Content-Length: 27
+
+<h1>Halaman tidak ditemukan<h1>
+====================================================
+
+curl -X DELETE http://localhost:5000/ -i
+
+output:
+HTTP/1.1 400 Bad Request
+Content-Type: text/html
+Date: Thu, 15 Jun 2023 11:40:31 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Content-Length: 63
+
+<h1>Halaman tidak dapat diakses menggunakan DELETE request</h1>
 
 */
