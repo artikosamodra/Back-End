@@ -11,7 +11,16 @@ const requestListener = (request, response) => {
     }
  
     if(method === 'POST') {
-        response.end('<h1>Hai!</h1>');
+        let body = [];
+    
+      request.on('data', (chunk) => {
+          body.push(chunk);
+      });
+ 
+      request.on('end', () => {
+          body = Buffer.concat(body).toString();
+          response.end(`<h1>Hai, ${body}!</h1>`);
+      }); 
     }
  
     if(method === 'PUT') {
