@@ -10,27 +10,33 @@ const requestListener = (request, response) => {
     if(url === '/') {
         if(method === 'GET') {
             response.statusCode = 200; //respon status terdiri dari 100-199 (informal), 200-299 (successful), 300-399 (redirect), 400-499 (client error/404), 500-599 (server error)
-            response.end('<h1>Ini adalah homepage</h1>');
+            response.end(JSON.stringify({ //perintah JSON.stringify adalah respon body menggunakan json yang ditampilkan pada message
+                message: 'Ini adalah homepage',
+            }));
         }
  
         else if(method === 'POST') {
             response.statusCode = 200; //200 = OK
             let body = [];
     
-                request.on('data', (chunk) => {
-                body.push(chunk);
+            request.on('data', (chunk) => {
+            body.push(chunk);
             });
  
             request.on('end', () => {
-            body = Buffer.concat(body).toString();
-            const {name} = JSON.parse(body);
-            response.end(`<h1>Halo ${name}! Ini adalah homepage!</h1>`);
-            }); 
+                body = Buffer.concat(body).toString();
+                const {name} = JSON.parse(body);
+                response.end(JSON.stringify({
+                    message: `Halo ${name}! Ini adalah homepage!`,
+                }))});
         }
 
         else {
             response.statusCode = 400; //400 = Bad Request
-            response.end(`<h1>Halaman tidak dapat diakses menggunakan ${method} request</h1>`);
+            response.end(JSON.stringify({
+                message: `Halaman tidak dapat diakses menggunakan ${method} request`,
+            }));
+            
         }
  
     }
@@ -38,7 +44,9 @@ const requestListener = (request, response) => {
     else if(url === '/about') {
         if(method === 'GET') {
             response.statusCode = 200;
-            response.end('<h1>Ini adalah aboutpage</h1>');
+            response.end(JSON.stringify({
+                message: 'Ini adalah aboutpage',
+            }));
         }
  
         else if (method === 'POST') {
@@ -50,21 +58,26 @@ const requestListener = (request, response) => {
             });
  
             request.on('end', () => {
-            body = Buffer.concat(body).toString();
-            const {name} = JSON.parse(body);
-            response.end(`<h1>Halo ${name}! Ini adalah abaoutpage!</h1>`);
-            }); 
-        }
+                body = Buffer.concat(body).toString();
+                const {name} = JSON.parse(body);
+                response.end(JSON.stringify({
+                    message: `Halo ${name}! Ini adalah abaoutpage!`,
+                }))});
+            }
 
         else {
             response.statusCode = 400;
-            response.end(`<h1>Halaman tidak dapat diakses menggunakan ${method} request</h1>`);
+            response.end(JSON.stringify({
+                message: `Halaman tidak dapat diakses menggunakan ${method} request`,
+            }));
         }
     }
     
     else {
         response.statusCode = 404; //404 = not found
-        response.end(`<h1>Halaman tidak ditemukan<h1>`);
+        response.end(JSON.stringify({
+                message: 'Halaman tidak ditemukan',
+            }));
     }
 }
 
@@ -82,15 +95,13 @@ server.listen(port, host, () => {
 ====================================================================================================================
 Test output
 
-curl -X GET http://localhost:5000/ -i
-HTTP/1.1 200 OK
-Content-Type: application/json
-X-Powered-By: NodeJS
-Date: Thu, 15 Jun 2023 12:04:50 GMT
-Connection: keep-alive
-Keep-Alive: timeout=5
-Content-Length: 28
+curl -X GET http://localhost:5000/
+output: {"message":"Ini adalah homepage"}
 
-<h1>Ini adalah homepage</h1>a
+curl -X GET http://localhost:5000/about
+output: {"message":"Halo! ini adalah halaman about"}
+
+curl -X DELETE http://localhost:5000/
+output: {"message":"Halaman tidak dapat diakses dengan DELETE request"}
 
 */
