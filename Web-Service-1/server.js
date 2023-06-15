@@ -1,7 +1,8 @@
 const http = require('http');
  
 const requestListener = (request, response) => {
-    response.setHeader('Content-Type', 'text/html');
+    response.setHeader('Content-Type', 'application/json'); //merubah html ke json, artinya simbol code html tidak berlaku, karena berubah menajdi json
+    response.setHeader('X-Powered-By','NodeJS'); //dengan properti X-Powered-By dengan NodeJS.
     response.statusCode = 200;
  
     const { method, url } = request; //menambahkan routing = method berada di dalam url => url(GET, POST, PUT, DELETE)
@@ -81,42 +82,15 @@ server.listen(port, host, () => {
 ====================================================================================================================
 Test output
 
-curl -X GET http://localhost:5000/about -i
-
-output:
+curl -X GET http://localhost:5000/ -i
 HTTP/1.1 200 OK
-Content-Type: text/html
-Date: Thu, 15 Jun 2023 11:40:13 GMT
+Content-Type: application/json
+X-Powered-By: NodeJS
+Date: Thu, 15 Jun 2023 12:04:50 GMT
 Connection: keep-alive
 Keep-Alive: timeout=5
-Content-Length: 29
+Content-Length: 28
 
-<h1>Ini adalah aboutpage</h1>
-=====================================================
-
-curl -X GET http://localhost:5000/test -i
-
-output:
-HTTP/1.1 404 Not Found
-Content-Type: text/html
-Date: Thu, 15 Jun 2023 11:40:22 GMT
-Connection: keep-alive
-Keep-Alive: timeout=5
-Content-Length: 27
-
-<h1>Halaman tidak ditemukan<h1>
-====================================================
-
-curl -X DELETE http://localhost:5000/ -i
-
-output:
-HTTP/1.1 400 Bad Request
-Content-Type: text/html
-Date: Thu, 15 Jun 2023 11:40:31 GMT
-Connection: keep-alive
-Keep-Alive: timeout=5
-Content-Length: 63
-
-<h1>Halaman tidak dapat diakses menggunakan DELETE request</h1>
+<h1>Ini adalah homepage</h1>a
 
 */
