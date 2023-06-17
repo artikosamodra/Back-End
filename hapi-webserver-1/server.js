@@ -6,6 +6,25 @@ const init = async () => {
 		host: 'localhost',
 	});
 
+	//ini adalah server.route digunakan untuk pengganti if else pada pemanggilan method pada server dengan menggunakan handler.
+	server.routes([
+		{
+			method: 'GET',
+			path: '/',
+			handler: (request, h) => {
+				return 'Homepage';
+			},
+		},
+
+		{
+			method: 'GET',
+			path: '/about',
+			handler: (request, h) => {
+				return 'About Page';
+			},
+		},
+	]);
+
 	await server.start();
 	console.log(`Server berjalan pada ${server.info.url}`);
 }
