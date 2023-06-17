@@ -11,7 +11,7 @@ const init = async () => {
 	server.route(routes); //memindahkan server.route ke file lain dengan memanggil routes (module.exports)
 
 	await server.start();
-	console.log(`Server berjalan pada ${server.info.url}`);
+	console.log(`Server berjalan pada ${server.info.uri}`);
 }
 
 init();
