@@ -7,7 +7,7 @@ const init = async () => {
 	});
 
 	//ini adalah server.route digunakan untuk pengganti if else pada pemanggilan method pada server dengan menggunakan handler.
-	server.routes(routes); //memindahkan server.route ke file lain dengan memanggil routes (module.exports)
+	server.route(routes); //memindahkan server.route ke file lain dengan memanggil routes (module.exports)
 
 	await server.start();
 	console.log(`Server berjalan pada ${server.info.url}`);
