@@ -1,4 +1,5 @@
 const Hapi = require('@hapi/hapi'); //menggunakan framework hapi untuk membuat http
+const routes = require('./routes'); //mengimport file routes.js
 
 const init = async () => {
 	const server = Hapi.server({
