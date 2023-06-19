@@ -6,6 +6,25 @@ const routes = [
                 path: '/',
                 handler: (request, h) => {
                         return 'Homepage';
+                        return h.response('create').code(201);
+                        
+                        //detail yang diproses pada h.response
+                        /*
+                        1. Detailed notation
+                        const handler = (request, h) => {
+                            const response = h.response('success');
+                            response.type('text/plain');
+                            response.header('X-Custom', 'some-value');
+                            return response;
+                        };
+ 
+                        2. Chained notation
+                        const handler = (request, h) => {
+                             return h.response('success')
+                                  .type('text/plain')
+                                  .header('X-Custom', 'some-value');
+                        };
+                        */
                 },
         },
 
@@ -36,6 +55,18 @@ const routes = [
                 },
         },
 
+        //method POST untuk url '/login' dengan payload request
+        /*
+        {
+                method: 'POST',
+                path: '/login',
+                handler: (request, h) => {
+                        const {username, password} = request.payload;
+                        return `Welcome ${username}`;
+                },
+        },
+        */
+        
         //request params
         {
                 method: 'GET',
