@@ -41,8 +41,15 @@ const routes = [
                 method: 'GET',
                 path: '/hello/{name?}',
                 handler: (request, h) => {
-                        const {name = "guest"} = request.params; //jika tidak terdapat username
-                        return `Hello, ${name}!`;
+                        const {name = "guest", location = "no detect", lang} = request.query; //menambah query nama dan lokasi dan bahasa.
+                        //const {name = "guest"} = request.params; //jika tidak terdapat username
+                        //const {location = "no detect"} = request.params;
+
+                        //pengaturan if else bahasa pada query diatas.
+                        if (lang === 'id'){
+                                return `Hai ${name} dari ${location}!`;
+                        }
+                        return `Hello, ${name} from ${location}!`;
                 },
         },
         
