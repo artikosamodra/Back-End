@@ -64,3 +64,10 @@ const routes = [
 ];
 
 module.exports = routes;
+
+/*
+curl -X GET 'http://localhost:5000/hello?name=artiko&location=malang&lang=id'
+
+output:
+Hai artiko dari malang!
+*/
