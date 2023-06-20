@@ -1,4 +1,4 @@
-##Readme => notes app##
+## Readme => notes app
 
 1. buat file package.json
    `npm init --y`
