@@ -10,8 +10,8 @@
     "nodemon": "^2.0.22"
   },
   "scripts": {
-    "start": "nodemon server.js",
-    "lint": "eslint ./"
+    "start": "nodemon ./src/server.js",
+    "lint": "eslint ./src"
   },
   "keywords": [],
   "author": "",
