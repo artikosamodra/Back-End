@@ -11,7 +11,7 @@
    
 4. konfigurasi eslint
    `npx eslint --init`
-   Setting seperti berikut:
+   + Setting seperti berikut:
   - How would you like to use ESLint? -> To check, find problems, and enforce code style.
   - What type of modules does your project use? -> CommonJS (require/exports).
   - Which framework did you use? -> None of these. 
