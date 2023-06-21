@@ -3,11 +3,9 @@ const notes = require('./notes'); //notes.js
 
 const addNoteHandler = (request, h) => {
   const { title, tags, body } = request.payload;
-
   const id = nanoid(16);
   const createdAt = new Date().toISOString();
   const updatedAt = createdAt;
-
   const newNote = {
     title,
     tags,
@@ -18,9 +16,8 @@ const addNoteHandler = (request, h) => {
   };
 
   notes.push(newNote);
-
   const isSuccess = notes.filter((note) => note.id === id).length > 0;
-
+  
   if (isSuccess){
     const response = h.response({
       status: 'success',
@@ -32,7 +29,6 @@ const addNoteHandler = (request, h) => {
     response.code(201);
     return response;
   }
-
   const response = h.response({
     status: 'fail',
     message: 'Catatan gagal ditambahkan',
@@ -41,4 +37,33 @@ const addNoteHandler = (request, h) => {
   return response;
 };
 
-module.exports = { addNoteHandler };
+//getAllNotesHandler
+const getAllNotesHandler = () => ({
+  status: 'success',
+  data: {
+    notes,
+  },
+});
+
+//getNoteByIdHandler
+const getNoteByIdHandler = (request, h) => {
+  const { id } = request.params;
+  const note = notes.filter((n) => n.id === id)[0];
+
+  if(note !== undifined){
+    return {
+      status: 'success',
+      data: {
+        note,
+      },
+    };
+  }
+  const response = h.response({
+    status: 'fail',
+    message: 'Catatan tidak ditemukan',
+  });
+  response.code(404);
+  return response;
+};
+
+module.exports = { addNoteHandler, getAllNotesHandler, getNoteByIdHandler };
